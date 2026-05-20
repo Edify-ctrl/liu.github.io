@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘晔菡，生日快乐！—— 赵启迪的专属祝愿</title>
+    <style>
+        /* 全局样式：暖色暗调、极致深邃与霓虹氛围 */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #120716; 
+            background-image: 
+                radial-gradient(circle at 15% 25%, rgba(255, 170, 50, 0.2) 0%, transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(230, 50, 120, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(120, 40, 200, 0.15) 0%, transparent 60%),
+                linear-gradient(135deg, #160a1c 0%, #0a040d 100%);
+            color: #fff;
+            font-family: 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 极致失焦暖色背景光斑 */
+        .bokeh-overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 5% 15%, rgba(255, 200, 80, 0.35) 0%, transparent 18%),
+                radial-gradient(circle at 3% 45%, rgba(255, 140, 40, 0.4) 0%, transparent 15%),
+                radial-gradient(circle at 10% 75%, rgba(255, 180, 90, 0.3) 0%, transparent 20%),
+                radial-gradient(circle at 95% 20%, rgba(255, 100, 150, 0.25) 0%, transparent 18%),
+                radial-gradient(circle at 92% 60%, rgba(240, 80, 180, 0.2) 0%, transparent 15%);
+            filter: blur(6px);
+        }
+
+        /* 主舞台容器：允许气泡在字前字后纵深穿插 */
+        .main-stage {
+            text-align: center;
+            z-index: 100; /* 高层级，但允许疯狂堆积的最高层气泡盖过它 */
+            pointer-events: none;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* 核心主角标题：顶天立地的耀眼纯白 */
+        .hero-title {
+            font-size: 6rem;
+            margin: 0;
+            font-weight: 1000;
+            letter-spacing: 8px;
+            color: #ffffff;
+            line-height: 1.2;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 255, 255, 0.5),
+                0 0 70px rgba(255, 105, 180, 0.6),
+                0 8px 30px rgba(0, 0, 0, 0.95);
+            animation: textPulse 3s ease-in-out infinite alternate;
+        }
+
+        /* 专属落款：在下方以极其优雅精致的香槟金、微光形式呈现 */
+        .signature-sub {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: #ffeaa7;
+            padding: 8px 25px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 234, 167, 0.25);
+            text-shadow: 0 0 10px rgba(255, 234, 167, 0.6), 0 2px 4px rgba(0,0,0,0.5);
+            animation: subBreathe 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textPulse {
+            0% { transform: scale(0.97); filter: brightness(0.95); }
+            100% { transform: scale(1.03); filter: brightness(1.1); }
+        }
+
+        @keyframes subBreathe {
+            0% { opacity: 0.85; transform: translateY(0); }
+            100% { opacity: 1; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 234, 167, 0.15); }
+        }
+
+        /* 背景层：密密麻麻的远景朦胧气球 */
+        .bg-ambient-balloon {
+            position: absolute;
+            border-radius: 50% 50% 50% 50% / 45% 45% 55% 55%;
+            opacity: 0.22;
+            filter: blur(10px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* 极速狂飙——对话框气泡主样式 */
+        .message-pop {
+            position: absolute;
+            padding: 10px 24px;
+            border-radius: 35px; 
+            font-weight: 800;
+            font-size: 1.3rem;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.45), inset 0 -4px 0 rgba(0,0,0,0.15);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0);
+            animation: popExplode 2.8s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+        }
+
+        /* 消息框的小尾巴 */
+        .message-pop::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 30px;
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* 特殊高亮大徽章 */
+        .badge-pop {
+            font-size: 2.6rem !important;
+            padding: 14px 40px !important;
+            border-radius: 45px !important;
+            font-weight: 900 !important;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.2) !important;
+        }
+
+        /* 独立超大漂浮3D质感图标（蛋糕、礼物、吉他、跑车感符号等） */
+        .floating-element {
+            position: absolute;
+            filter: drop-shadow(0 12px 20px rgba(0,0,0,0.55));
+            opacity: 0;
+            animation: elementExplode 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.15) forwards;
+            pointer-events: none;
+        }
+
+        /* 爆炸式涌现动画 */
+        @keyframes popExplode {
+            0% {
+                opacity: 0;
+                transform: scale(0.2) rotate(var(--start-rot, -20deg));
+            }
+            6% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--rand-rot, 0deg));
+            }
+            92% {
+                opacity: 1;
+                transform: scale(1.05) translate(var(--move-x, 0px), var(--move-y, -15px)) rotate(var(--rand-rot, 0deg));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.6) translateY(-35px) rotate(var(--end-rot, 10deg));
+            }
+        }
+
+        @keyframes elementExplode {
+            0% { opacity: 0; transform: scale(0) rotate(0deg); }
+            10% { opacity: 1; transform: scale(var(--base-scale, 1.2)) rotate(var(--r-rot, 15deg)); }
+            90% { opacity: 1; transform: scale(var(--base-scale, 1.2)) translate(var(--m-x, 15px), var(--m-y, -25px)) rotate(var(--r-rot, 15deg)); }
+            100% { opacity: 0; transform: scale(0.4) translateY(-50px) rotate(0deg); }
+        }
+
+        /* 铺天盖地的彩屑狂欢雨 */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            z-index: 300; 
+            opacity: 0.9;
+            pointer-events: none;
+            animation: confettiCascade 2s linear forwards;
+        }
+
+        @keyframes confettiCascade {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 电影感金色暖光霓虹氛围 -->
+    <div class="bokeh-overlay"></div>
+
+    <!-- 舞台核心：绝对主角群 -->
+    <div class="main-stage">
+        <h1 class="hero-title">刘晔菡<br>生日快乐</h1>
+        <div class="signature-sub">✨ 赵启迪 倾心祝愿 ✨</div>
+    </div>
+
+    <script>
+        // 1. 专门为男生定制的极高密度海量祝福语词库（已剔除女性化词汇）
+        const elementsData = [
+            { text: "Happy Birthday 🎂", type: "lang" },
+            { text: "お誕生日おめでとう ✨", type: "lang" },
+            { text: "Joyeux Anniversaire 🎁", type: "lang" },
+            { text: "Alles Gute zum Geburtstag", type: "lang" },
+            { text: "Feliz Cumpleaños 🎈", type: "lang" },
+            { text: "생일 축하합니다 🥳", type: "lang" },
+            { text: "С днем рождения 🌟", type: "lang" },
+            { text: "Happ Birthday 🎉", type: "lang" }, 
+            { text: "Buon Compleanno 🍰", type: "lang" },
+            { text: "Parabéns pelo aniversário", type: "lang" },
+            { text: "20岁 🚀", type: "badge" },     
+            { text: "祝你天天开心 🥂", type: "lang" },
+            { text: "✨ 2节好乐", type: "badge" },
+            { text: "愿你眼中总有光芒 💖", type: "lang" },
+            { text: "岁岁常欢愉，年年皆胜意 ⚡", type: "lang" },
+            { text: "前程似锦，顶峰相见 🚀", type: "badge" },
+            { text: "🎉 祝晔菡越来越帅气！", type: "lang" },
+            { text: "阳光万里，顶天立地 🌊", type: "lang" },
+            { text: "🥳 嗨皮 birth 嘚！", type: "lang" },
+            { text: "🌟 兄弟，快乐无限！", type: "lang" },
+            { text: "每一天都热血难挡 🦾", type: "lang" },
+            { text: "🎉 Happy Birthday!", type: "lang" },
+            { text: "🎂 晔菡帅哥，生日快乐！", type: "badge" },
+            { text: "Handsome & Cool 💎", type: "lang" }
+        ];
+
+        // 2. 纯手绘/实体3D质感视觉大符号
+        const giantIcons = [
+            { icon: "🎂", scale: 1.5 }, // 巨型蛋糕
+            { icon: "🎁", scale: 1.3 }, // 礼物盒
+            { icon: "🎉", scale: 1.4 }, // 狂欢拉炮
+            { icon: "🍰", scale: 1.2 }, // 切块蛋糕
+            { icon: "🎈", scale: 1.4 }, // 气球
+            { icon: "🌟", scale: 1.4 }, // 星星
+            { icon: "👑", scale: 1.5 }, // 皇冠
+            { icon: "⚡", scale: 1.4 }, // 闪电能量
+            { icon: "🚗", scale: 1.3 }  // 炫酷跑车元素
+        ];
+
+        // 3. 高饱和度、绝对热闹且高级的派对配色池
+        const colorPalette = [
+            { bg: '#fcd217', text: '#111111' }, 
+            { bg: '#f6b2cd', text: '#3c0c20' }, 
+            { bg: '#ebf4e3', text: '#203310' }, 
+            { bg: '#cae7e3', text: '#092420' }, 
+            { bg: '#f28e83', text: '#ffffff' }, 
+            { bg: '#dfc2f2', text: '#25043a' }, 
+            { bg: '#ffffff', text: '#222222' }, 
+            { bg: '#ff7675', text: '#ffffff' }, 
+            { bg: '#74b9ff', text: '#0c2461' } 
+        ];
+
+        // 4. 初始化更密集的远景环境大背景气球（数量 35 个，打造无穷纵深感）
+        const ambientColors = ['#de3163', '#ff7f50', '#ffbf00', '#9fe2bf', '#40e0d0', '#6495ed', '#be2edd', '#f0932b'];
+        for (let i = 0; i < 35; i++) {
+            const ambientBall = document.createElement('div');
+            ambientBall.classList.add('bg-ambient-balloon');
+            const size = Math.random() * 140 + 80; 
+            ambientBall.style.width = size + 'px';
+            ambientBall.style.height = size * 1.3 + 'px';
+            ambientBall.style.backgroundColor = ambientColors[Math.floor(Math.random() * ambientColors.length)];
+            ambientBall.style.left = Math.random() * 100 + 'vw';
+            ambientBall.style.top = Math.random() * 100 + 'vh';
+            ambientBall.style.animation = `floatBackground ${Math.random() * 8 + 10}s ease-in-out infinite alternate`;
+            ambientBall.style.animationDelay = (Math.random() * -15) + 's'; 
+            document.body.appendChild(ambientBall);
+        }
+
+        // 核心轰炸式生成引擎：气泡、大蛋糕礼物随机组合，无规则极限狂飙
+        function triggerUltimateCelebration() {
+            // 70% 概率喷射文字对话框，30% 概率疯狂丢出巨型独立实体蛋糕、花束、礼物！
+            if (Math.random() > 0.3) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-pop');
+
+                const data = elementsData[Math.floor(Math.random() * elementsData.length)];
+                const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+
+                bubble.innerText = data.text;
+                bubble.style.backgroundColor = color.bg;
+                bubble.style.color = color.text;
+
+                if (data.type === 'badge') {
+                    bubble.classList.add('badge-pop');
+                }
+
+                // 极端不规则排布：全屏大范围铺满，甚至会盖住、穿过中心字
+                const randomX = Math.random() * 90 - 5; 
+                const randomY = Math.random() * 90 - 2; 
+                bubble.style.left = randomX + 'vw';
+                bubble.style.top = randomY + 'vh';
+
+                // 随机纵深层级控制（重要：让部分气泡飘在名字的最上层，部分藏在后面，造成重叠效果）
+                bubble.style.zIndex = Math.random() > 0.4 ? 200 : 50;
+
+                // 疯狂乱序旋转角、位移
+                const startRot = (Math.random() * 40 - 20) + 'deg';
+                const randRot = (Math.random() * 30 - 15) + 'deg'; 
+                const endRot = (Math.random() * 40 - 20) + 'deg';
+                const moveX = (Math.random() * 60 - 30) + 'px';
+                const moveY = (Math.random() * -50 - 15) + 'px';
+                
+                bubble.style.setProperty('--start-rot', startRot);
+                bubble.style.setProperty('--rand-rot', randRot);
+                bubble.style.setProperty('--end-rot', endRot);
+                bubble.style.setProperty('--move-x', moveX);
+                bubble.style.setProperty('--move-y', moveY);
+
+                // 给独立对话框注入特定的小尾巴指向
+                const uniqueId = 'bp-' + Math.random().toString(36).substr(2, 9);
+                bubble.id = uniqueId;
+                const styleSheet = document.createElement("style");
+                styleSheet.innerText = `#${uniqueId}::after { border-top-color: ${color.bg} !important; }`;
+                document.head.appendChild(styleSheet);
+
+                document.body.appendChild(bubble);
+
+                setTimeout(() => {
+                    bubble.remove();
+                    styleSheet.remove();
+                }, 2800);
+
+            } else {
+                // ---- 产生铺天盖地、疯狂旋转的独立超大节日实体实体符号（蛋糕 / 礼物盒 / 皇冠） ----
+                const item = giantIcons[Math.floor(Math.random() * giantIcons.length)];
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
+                element.innerText = item.icon;
+
+                element.style.left = Math.random() * 92 + 'vw';
+                element.style.top = Math.random() * 90 + 'vh';
+                // 纵深层级
+                element.style.zIndex = Math.random() > 0.5 ? 250 : 40;
+
+                // 随机独立缩放率和运动曲线
+                const scaleFactor = item.scale + (Math.random() * 0.4 - 0.2);
+                element.style.setProperty('--base-scale', scaleFactor);
+                element.style.setProperty('--r-rot', (Math.random() * 60 - 30) + 'deg');
+                element.style.setProperty('--m-x', (Math.random() * 50 - 25) + 'px');
+                element.style.setProperty('--m-y', (Math.random() * -60 - 20) + 'px');
+
+                document.body.appendChild(element);
+
+                setTimeout(() => {
+                    element.remove();
+                }, 2500);
+            }
+        }
+
+        // 漫天飞舞的无尽彩屑
+        function letItRainConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = '-15px';
+            
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0px';
+            const confColors = ['#ffd700', '#ff4757', '#2ed573', '#1e90ff', '#ffa502', '#ffffff', '#ff6b81', '#a29bfe', '#55efc4'];
+            confetti.style.backgroundColor = confColors[Math.floor(Math.random() * confColors.length)];
+            
+            const size = Math.random() * 9 + 6 + 'px';
+            confetti.style.width = size;
+            confetti.style.height = size;
+            confetti.style.animationDuration = (Math.random() * 1.0 + 1.2) + 's';
+
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 2000);
+        }
+
+        // 毁灭级刷新高频频率：每 30 毫秒炸射一个元素，每 15 毫秒一发彩屑
+        setInterval(triggerUltimateCelebration, 30);
+        setInterval(letItRainConfetti, 15);
+    </script>
+</body>
+</html>
